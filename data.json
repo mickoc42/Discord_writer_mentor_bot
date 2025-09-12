@@ -1,0 +1,37 @@
+[
+    {
+        "days": ["Monday"],
+        "time": "10:00",
+        "message": "Zadanie na dziś:\n Czas 5 minut\n treść: pisz na dowolny temat"
+    },
+    {
+        "days": ["Tuesday"],
+        "time": "10:00",
+        "message": "Zadanie na dziś:\n Czas 10 minut\n treść: przygotuj opis postaci postaraj się zawrzeć następujące informacje: \n Zewnętrzna (to, co widać): wygląd, sposób ubierania się, nawyki ruchowe, głos.\n Środkowa (to, co mówi i pokazuje innym): charakter, poglądy, maski, które zakłada w różnych sytuacjach.\n Wewnętrzna (to, co ukrywa): największy lęk, pragnienie albo sekret."
+    },
+    {
+        "days": ["Wednesday"],
+        "time": "10:00",
+        "message": "Zadanie na dziś:\n Czas 10 minut\n treść: przygotuj opis miejsca lub przedmiotu bez uzywania jego nazwy"
+    },
+    {
+        "days": ["Thursday"],
+        "time": "10:00",
+        "message": "Zadanie na dziś:\n Czas 5 minut\n treść: pisz na dowolny temat"
+    },
+   {
+        "days": ["Friday"],
+        "time": "15:00",
+        "message": "Zadanie na dziś:\n Czas 10 minut\n treść: przygotuj opis postaci postaraj się zawrzeć następujące informacje: \n Zewnętrzna (to, co widać): wygląd, sposób ubierania się, nawyki ruchowe, głos.\n Środkowa (to, co mówi i pokazuje innym): charakter, poglądy, maski, które zakłada w różnych sytuacjach.\n Wewnętrzna (to, co ukrywa): największy lęk, pragnienie albo sekret."
+   },
+   {
+       "days": ["Sunday"],
+        "time": "10:00",
+     "message": "Zadanie na dziś:\n Czas 10 minut\n treść: przygotuj opis miejsca lub przedmiotu bez uzywania jego nazwy"
+   },
+   {
+        "days": ["Saturday"],
+        "time": "10:00",
+        "message": "Dziś się Opierdalamy :D"
+   }
+]

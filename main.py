@@ -3,9 +3,12 @@ import asyncio
 import logging
 import os
 import json
+from flask import Flask
 from discord.ext import tasks, commands
 from dotenv import load_dotenv
 from datetime import datetime, time as dtime
+from hypercorn.asyncio import serve
+from hypercorn.config import Config
 load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
 channelID = int(os.getenv("CHANNEL_ID"))
@@ -15,6 +18,29 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 intents = discord.Intents.default()
 intents.message_content = True
 intents.voice_states = True
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Hello from Render!"
+
+async def start_flask():
+    config = Config()
+    config.bind = [f"0.0.0.0:{os.environ.get('PORT', 5000)}"]
+    await serve(app, config)
+
+
+async def start_bot():
+    await bot.start(token)
+
+async def main():
+    # run both concurrently
+    await asyncio.gather(
+        start_flask(),
+        start_bot()
+    )
+
 
 # Wczytanie danych z JSON
 with open("data.json", "r") as f:
@@ -81,4 +107,6 @@ async def timer(ctx, minutes: int):
 
         await vc.disconnect()
 
-bot.run(token, log_handler=handler, log_level=logging.DEBUG)
+if __name__ == '__main__':
+    asyncio.run(main())
+

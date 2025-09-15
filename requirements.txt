@@ -2,5 +2,3 @@ discord.py
 python-dotenv
 PyNaCl
 ffmpeg
-flask
-hypercorn

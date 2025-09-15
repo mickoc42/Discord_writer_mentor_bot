@@ -48,8 +48,6 @@ async def check_messages():
 
     for index, item in enumerate(schedule):
         if weekday in item["days"]:
-            msg_time = dtime.fromisoformat(item["time"])
-            if now.hour == msg_time.hour:
                 if (index, today_str) not in sent_today:
                     # Oznaczenie wszystkich członków serwera
                     await channel.send(f"@everyone {item['message']}")

@@ -1,0 +1,30 @@
+[
+  {
+    "days": ["Monday"],
+    "time": "10:00"
+  },
+  {
+    "days": ["Tuesday"],
+    "time": "10:00"
+  },
+  {
+    "days": ["Wednesday"],
+    "time": "10:00"
+  },
+  {
+    "days": ["Thursday"],
+    "time": "10:00"
+  },
+  {
+    "days": ["Friday"],
+    "time": "10:00"
+  },
+  {
+    "days": ["Sunday"],
+    "time": "10:00"
+  },
+  {
+    "days": ["Saturday"],
+    "time": "10:00"
+  }
+]

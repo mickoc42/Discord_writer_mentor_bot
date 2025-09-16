@@ -5,7 +5,9 @@ import os
 import json
 from discord.ext import tasks, commands
 from dotenv import load_dotenv
-from datetime import datetime, time as dtime
+from datetime import datetime
+import random
+
 load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
 channelID = int(os.getenv("CHANNEL_ID"))
@@ -17,8 +19,35 @@ intents.message_content = True
 intents.voice_states = True
 
 # Wczytanie danych z JSON
-with open("data.json", "r") as f:
+with open("schedule.json", "r") as f:
     schedule = json.load(f)
+
+# Wczytanie puli wiadomości z pliku JSON
+try:
+    with open("messages.json", "r", encoding="utf-8") as f:
+        data = json.load(f)
+        # Teraz plik ma postać {"messages": [ ... ]}
+        raw_messages = data.get("messages", [])
+        message_pool = [m["message"] for m in raw_messages]
+except Exception as e:
+    print("Błąd wczytywania pliku:", e)
+    message_pool = []
+
+# Przygotowanie indeksów do losowania bez powtórek
+unused_message_indices = list(range(len(message_pool)))
+random.shuffle(unused_message_indices)
+
+def get_next_message() -> str:
+    global unused_message_indices
+    if not message_pool:
+        return "Brak wiadomości do wysłania."
+    if not unused_message_indices:
+        # Wyczerpano wszystkie – reset i ponowne losowanie
+        unused_message_indices = list(range(len(message_pool)))
+        random.shuffle(unused_message_indices)
+    idx = unused_message_indices.pop()
+    return message_pool[idx]
+
 
 sent_today = set()
 last_day_checked = None  # do resetu codziennie
@@ -50,7 +79,8 @@ async def check_messages():
         if weekday in item["days"]:
                 if (index, today_str) not in sent_today:
                     # Oznaczenie wszystkich członków serwera
-                    await channel.send(f"@everyone {item['message']}")
+                    random_message = get_next_message()
+                    await channel.send(f"@everyone {item[random_message]}")
                     sent_today.add((index, today_str))
 
 @bot.command()
@@ -72,11 +102,6 @@ async def timer(ctx, minutes: int):
     if ctx.author.voice:
         channel = ctx.author.voice.channel
         vc = await channel.connect()
-        vc.play(discord.FFmpegPCMAudio("beep.mp3"))
-
-        while vc.is_playing():
-            await asyncio.sleep(1)
-
         await vc.disconnect()
 
 bot.run(token, log_handler=handler, log_level=logging.DEBUG)

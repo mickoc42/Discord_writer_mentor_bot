@@ -22,31 +22,31 @@ intents.voice_states = True
 with open("schedule.json", "r") as f:
     schedule = json.load(f)
 
-# Wczytanie puli wiadomości z pliku JSON
+# Wczytanie puli zadań z pliku JSON
 try:
-    with open("messages.json", "r", encoding="utf-8") as f:
+    with open("tasks.json", "r", encoding="utf-8") as f:
         data = json.load(f)
-        # Teraz plik ma postać {"messages": [ ... ]}
-        raw_messages = data.get("messages", [])
-        message_pool = [m["message"] for m in raw_messages]
+        # Teraz plik ma postać {"tasks": [ ... ]}
+        raw_tasks = data.get("tasks", [])
+        task_pool = [t["task"] for t in raw_tasks]
 except Exception as e:
     print("Błąd wczytywania pliku:", e)
-    message_pool = []
+    task_pool = []
 
 # Przygotowanie indeksów do losowania bez powtórek
-unused_message_indices = list(range(len(message_pool)))
-random.shuffle(unused_message_indices)
+unused_task_indices = list(range(len(task_pool)))
+random.shuffle(unused_task_indices)
 
-def get_next_message() -> str:
-    global unused_message_indices
-    if not message_pool:
-        return "Brak wiadomości do wysłania."
-    if not unused_message_indices:
+def get_next_task() -> str:
+    global unused_task_indices
+    if not task_pool:
+        return "Brak zadań do wysłania."
+    if not unused_task_indices:
         # Wyczerpano wszystkie – reset i ponowne losowanie
-        unused_message_indices = list(range(len(message_pool)))
-        random.shuffle(unused_message_indices)
-    idx = unused_message_indices.pop()
-    return message_pool[idx]
+        unused_task_indices = list(range(len(task_pool)))
+        random.shuffle(unused_task_indices)
+    idx = unused_task_indices.pop()
+    return task_pool[idx]
 
 
 sent_today = set()
@@ -79,8 +79,8 @@ async def check_messages():
         if weekday in item["days"]:
                 if (index, today_str) not in sent_today:
                     # Oznaczenie wszystkich członków serwera
-                    random_message = get_next_message()
-                    await channel.send(f"@everyone {item[random_message]}")
+                    random_task = get_next_task()
+                    await channel.send(f"@everyone {random_task}")
                     sent_today.add((index, today_str))
 
 @bot.command()
